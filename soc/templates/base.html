@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOČ-ky</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS for Dark Theme and Vibrant Colors -->
+    <style>
+        body {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+        .navbar-custom {
+            background-color: #007bff; /* Nice blue color for the navbar */
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav .nav-link {
+            color: #f8f9fa;
+        }
+        .navbar-custom .nav-item .nav-link:hover {
+            color: #ffc107; /* Hover color for navbar links */
+        }
+        .btn-vibrant {
+            background-color: #e83e8c;
+            color: #fff;
+        }
+        .btn-vibrant:hover {
+            background-color: #d63384;
+            color: #fff;
+        }
+        .card-custom {
+            background-color: #495057; /* Darker card background */
+            border: none;
+            color: #f8f9fa;
+            margin-bottom: 20px; /* Add space between cards */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'temy' %}">Stredná odborná činnosť</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'statistics' %}">Štatistika</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pridat_temu' %}">Pridať tému</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card card-custom">
+            <div class="card-body">
+                {% block content %}
+                <!-- Your block content goes here -->
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (optional but recommended for certain components like dropdowns, modals) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

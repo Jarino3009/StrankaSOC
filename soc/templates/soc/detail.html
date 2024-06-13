@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if tema %}
+    <div class="container mt-4">
+        <div class="content-container bg-dark p-4 rounded">
+            <h1 class="text-white">{{ tema.nazov }}</h1>
+            <div class="topic-details text-white">
+                <b>Popis: </b>
+                <p>{{ tema.popis }}</p>
+                <p><b>Konzultant:</b> <a href="{% url 'ucitel' ucitel=tema.konzultant.id %}" class="text-white">{{ tema.konzultant }}</a></p>
+                <p><b>Študent:</b> {% if tema.student %} <a href="{% url 'student' student=tema.student.id %}" class="text-white">{{ tema.student }}</a> {% endif %} </p>
+                <p>{{ tema.odbor }}</p>
+                <p><b>Dostupnosť:</b> {{ tema.dostupnost }}</p>
+                <p><b>Konzultácie:</b> {{ tema.pocet_konzultacii }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if student %}
+    <div class="container mt-4">
+        <div class="content-container bg-dark p-4 rounded">
+            <h1 class="text-white">{{ student.meno }} {{ student.priezvisko }}</h1>
+            <div class="works text-white">
+                <h3>Práce:</h3>
+                <div class="theme">
+                    {% for tema in temy %}
+                        <div class="content">
+                            <h2><a href="{% url 'tema' tema=tema.id %}" class="text-white">{{ tema.nazov }}</a></h2>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if ucitel %}
+    <div class="container mt-4">
+        <div class="content-container bg-dark p-4 rounded">
+            <h1 class="text-white">{{ ucitel.meno }} {{ ucitel.priezvisko }}</h1>
+            <div class="themes-list text-white">
+                <h3>Témy:</h3>
+                {% for tema in temy %}
+                    <div class="theme">
+                        <div class="content">
+                            <h2><a href="{% url 'tema' tema=tema.id %}" class="text-white">{{ tema.nazov }}</a></h2>
+                            <div class="text-left">
+                                {% if tema.dostupnost.id == 1 %}
+                                <p class="bg-success rounded text-white d-inline-block px-2 py-1">Dostupné</p>
+                                {% elif tema.dostupnost.id == 2 %}
+                                <p class="bg-warning rounded text-white d-inline-block px-2 py-1">Obmedzené</p>
+                                {% elif tema.dostupnost.id == 3 %}
+                                <p class="bg-danger rounded text-white d-inline-block px-2 py-1">Obsadené</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

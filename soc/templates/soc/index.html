@@ -1,11 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Témy</h1>
+    <div class="filter-options mb-4">
+        <form method="GET" action="{% url 'temy' %}">
+            <div class="form-group">
+                <label for="odbor">Odbor:</label>
+                <select name="odbor" id="odbor" class="form-control">
+                    <option value="">Všetky</option>
+                    {% for odbor in odbory %}
+                        <option value="{{ odbor.id }}">{{ odbor.nazov }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="konzultant">Konzultant:</label>
+                <select name="konzultant" id="konzultant" class="form-control">
+                    <option value="">Všetci</option>
+                    {% for ucitel in ucitelia %}
+                        <option value="{{ ucitel.id }}">{{ ucitel.meno }} {{ ucitel.priezvisko }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dostupnost">Dostupnosť:</label>
+                <select name="dostupnost" id="dostupnost" class="form-control">
+                    <option value="">Všetky</option>
+                    {% for dostupnost in dostupnosti %}
+                        <option value="{{ dostupnost.id }}">{{ dostupnost.nazov }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Filtrovať</button>
+        </form>
+    </div>
+
+    {% if temy %}
+    <div class="themes-list">
+        {% for tema in temy %}
+        <div class="theme mb-4 p-3 border rounded">
+            <div class="content mb-2">
+                <h2><a href="{% url 'tema' tema=tema.id %}">{{ tema.nazov }}</a></h2>
+                <div class="availability-box">
+                    {% if tema.dostupnost.id == 1 %}
+                    <span class="availability bg-success text-white p-1 rounded">{{ tema.dostupnost }}</span>
+                    {% endif %}
+                    {% if tema.dostupnost.id == 2 %}
+                    <span class="availability bg-warning text-dark p-1 rounded">{{ tema.dostupnost }}</span>
+                    {% endif %}
+                    {% if tema.dostupnost.id == 3 %}
+                    <span class="availability bg-danger text-white p-1 rounded">{{ tema.dostupnost }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="topic-details">
+                <b>Popis: </b>
+                <p>{{ tema.popis }}</p>
+                <p><b>Konzultant:</b> <a href="{% url 'ucitel' ucitel=tema.konzultant.id %}">{{ tema.konzultant }}</a></p>
+                <p><b>Študent:</b> {% if tema.student %} <a href="{% url 'student' student=tema.student.id %}">{{ tema.student }}</a> {% endif %}</p>
+                <p>{{ tema.odbor }}</p>
+                <p><b>Konzultácie:</b> {{ tema.pocet_konzultacii }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
